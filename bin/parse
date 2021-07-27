@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+# frozen_string_literal: true
+
+require 'optparse'
+require_relative '../lib/parser'
+
+args = Struct.new(:order).new('total')
+
+optparse = OptionParser.new do |opts|
+  opts.banner = "Usage: parse <required filepath> [options]\n\n"
+
+  opts.on('-o ORDER', '--order=ORDER', 'Possible orders: "total" and "unique" (default: "total")') do |order|
+    args.order = order
+  end
+
+  opts.on('-h', '--help', 'Prints the guide') do
+    puts opts
+    exit
+  end
+end
+optparse.parse!
+
+if ARGV.empty?
+  puts optparse
+else
+  begin
+  rescue Errno::ENOENT => _e
+    puts "Provided file '#{ARGV[0]}' doesn't exist."
+  end
+end
