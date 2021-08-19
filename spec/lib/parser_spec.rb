@@ -20,23 +20,38 @@ RSpec.describe Parser do
 
     context 'when no order given' do
       subject { described_class.new(filepath).call }
+      let(:formatter) { instance_double('Formatter::Total') }
 
       it do
-        expect { subject }.to output(
-          <<~TEXT
-            /index 2 views
-            /about_us 1 views
-          TEXT
-        ).to_stdout
+        expect(counter).to receive(:call).with(:total).and_return(counter_total_output)
+        expect(Formatters::Total).to receive(:new).with(counter_total_output).and_return(formatter)
+        expect(formatter).to receive(:call)
+        subject
       end
     end
 
     context 'when order as total given' do
-      pending
+      subject { described_class.new(filepath, :total).call }
+      let(:formatter) { instance_double('Formatter::Total') }
+
+      it do
+        expect(counter).to receive(:call).with(:total).and_return(counter_total_output)
+        expect(Formatters::Total).to receive(:new).with(counter_total_output).and_return(formatter)
+        expect(formatter).to receive(:call)
+        subject
+      end
     end
 
     context 'when order as unique given' do
-      pending
+      subject { described_class.new(filepath, :unique).call }
+      let(:formatter) { instance_double('Formatter::Unique') }
+
+      it do
+        expect(counter).to receive(:call).with(:unique).and_return(counter_unique_output)
+        expect(Formatters::Unique).to receive(:new).with(counter_unique_output).and_return(formatter)
+        expect(formatter).to receive(:call)
+        subject
+      end
     end
   end
 end

@@ -10,5 +10,14 @@ RSpec.describe Formatters::Unique do
         { occurrences: 2, url: '/index' }
       ]
     end
+
+    it do
+      expect { subject }.to output(
+        <<~TEXT
+          /about 4 unique views
+          /index 2 unique views
+        TEXT
+      ).to_stdout
+    end
   end
 end

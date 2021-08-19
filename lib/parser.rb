@@ -14,7 +14,7 @@ class Parser
 
   def call
     content = FileLoader.new(filepath).call
-    grouped_results = Counter.new(content).public_send(order)
+    grouped_results = Counter.new(content).call(order)
     Kernel.const_get("Formatters::#{order.capitalize}").new(grouped_results).call
   end
 

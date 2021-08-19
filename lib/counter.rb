@@ -5,6 +5,11 @@ class Counter
     @content = content
   end
 
+  def call(order)
+    result = method(order).call
+    sort_results(result)
+  end
+
   def total
     content
       .group_by(&:first)
@@ -12,7 +17,9 @@ class Counter
   end
 
   def unique
-    content.group_by(&:first)
+    content
+      .group_by(&:first)
+      .map { |url, entries| { url: url, occurrences: entries.uniq.size } }
   end
 
   private

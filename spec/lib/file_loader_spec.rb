@@ -7,7 +7,11 @@ RSpec.describe FileLoader do
     let(:filepath) { 'spec/fixtures/page_views.log' }
 
     it 'splits up lines by whitespace' do
-      expect(subject).to include(['/index', '000.111.222.333'])
+      expect(subject).to include(%w[/index 000.111.222.333])
+    end
+
+    it 'returns correct number of pages' do
+      expect(subject.size).to eq(46)
     end
   end
 end
